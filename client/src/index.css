@@ -1,0 +1,39 @@
+/* Pretendard 폰트 (V0 디자인과 동일) */
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
+
+/* 중개사 올인원 브랜드 색상 (V0 디자인 시스템과 동일) */
+:root {
+  --primary: #2563eb;       /* 메인 블루 */
+  --primary-dark: #1d4ed8;  /* 버튼 hover */
+  --accent: #4f46e5;        /* 포인트 인디고 */
+  --ink: #0f172a;           /* 제목 텍스트 */
+  --muted: #64748b;         /* 본문 텍스트 */
+  --bg: #f8fafc;            /* 배경(옅은 슬레이트) */
+  --card: #ffffff;          /* 카드 */
+  --border: #e2e8f0;        /* 테두리 */
+
+  /* 신뢰의 네이비 — 히어로·강조용 (2026-06 UI 개선) */
+  --navy: #0f2c52;
+  --navy-soft: #1e3a5f;
+  /* 입체감 토큰 — 그림자 3단계 + 공통 반경 */
+  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+  --shadow-md: 0 10px 25px -8px rgba(15, 23, 42, 0.12);
+  --shadow-lg: 0 24px 48px -12px rgba(15, 23, 42, 0.20);
+  --radius: 14px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* 앵커 이동(상품 둘러보기 등) 부드럽게 */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: 'Pretendard', -apple-system, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+}

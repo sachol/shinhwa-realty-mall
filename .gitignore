@@ -1,0 +1,33 @@
+# ============================================
+#  신화 부동산몰 — GitHub 업로드 제외 목록 (모노레포 루트)
+#  ※ 여기 적힌 것들은 PC엔 그대로 남고, GitHub에는 안 올라갑니다.
+# ============================================
+
+# ── 의존성: 매우 큼. 배포 시 npm install 로 자동 재생성 ──
+node_modules/
+
+# ── 환경변수(.env): 비밀값 포함 — 절대 업로드 금지 ──
+#    (.env.example 은 비밀이 아니라 '참고용'이라 올라갑니다)
+.env
+.env.local
+.env.*.local
+
+# ── 빌드 산출물: 배포 시 다시 빌드됨 ──
+dist/
+build/
+
+# ── 이 프로젝트(client + server) 배포와 무관한 폴더 ──
+real-estate-mall-page/
+capture_image/
+.bkit/
+
+# ── 로그 ──
+*.log
+npm-debug.log*
+yarn-debug.log*
+
+# ── OS / 에디터 부산물 ──
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
