@@ -6,7 +6,16 @@ import { API_BASE } from '../config'
 // 여러 페이지에서 재사용할 수 있도록 별도 컴포넌트로 분리했다.
 function Navbar() {
   // 로그인한 회원 정보 (없으면 null = 비로그인 상태)
-  const [user, setUser] = useState(null)
+  // 페이지 이동·새로고침 시 깜빡임 방지: 저장해둔 회원 정보로 먼저 표시한 뒤,
+  // 아래 useEffect 의 /me 호출로 서버에서 다시 확인(만료·위조면 로그아웃 처리).
+  const [user, setUser] = useState(() => {
+    try {
+      const saved = localStorage.getItem('user')
+      return saved ? JSON.parse(saved) : null
+    } catch {
+      return null
+    }
+  })
   // 드롭다운 메뉴 열림/닫힘 상태
   const [menuOpen, setMenuOpen] = useState(false)
   // 장바구니에 담긴 총 개수 (🛒 뱃지에 표시)
