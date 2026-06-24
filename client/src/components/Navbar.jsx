@@ -101,8 +101,12 @@ function Navbar() {
 
   return (
     <header className="home-nav">
-      {/* 로고 클릭 시 메인으로 이동 (여러 페이지에서 유용) */}
-      <Link to="/" className="home-logo">🏠 중개사 올인원</Link>
+      {/* 로고 클릭 시 메인으로 이동 — 공인중개사 정체성 + 올인원 뱃지 (3D 남색 버튼) */}
+      <Link to="/" className="home-logo" aria-label="공인중개사 올인원 홈">
+        <span className="logo-icon" aria-hidden="true">🏠</span>
+        <span className="logo-name">공인중개사</span>
+        <span className="logo-badge">올인원</span>
+      </Link>
 
       <div className="home-nav-actions">
         {user ? (

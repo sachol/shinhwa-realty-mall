@@ -46,10 +46,58 @@
   border-bottom: 1px solid var(--border);
   background: #fff;
 }
+/* 로고 — 공인중개사 정체성을 살린 3D 남색 입체 버튼 */
 .home-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 16px;
+  border-radius: 12px;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.2px;
+  color: #fff;
+  text-decoration: none;
+  background: linear-gradient(145deg, #1e3a5f 0%, #0f2c52 100%);
+  border: 1px solid rgba(15, 44, 82, 0.6);
+  box-shadow:
+    0 4px 10px rgba(15, 44, 82, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+}
+.home-logo:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.06);
+  box-shadow:
+    0 8px 18px rgba(15, 44, 82, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+.home-logo:active {
+  transform: translateY(1px);
+  box-shadow:
+    0 2px 6px rgba(15, 44, 82, 0.4),
+    inset 0 2px 5px rgba(0, 0, 0, 0.22);
+}
+.home-logo .logo-icon {
   font-size: 18px;
-  font-weight: 700;
-  color: var(--primary);
+  line-height: 1;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.25));
+}
+.home-logo .logo-name {
+  color: #fff;
+}
+/* '올인원' — 금색 포인트 뱃지로 강조 */
+.home-logo .logo-badge {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0;
+  padding: 3px 9px;
+  border-radius: 999px;
+  color: #3a2c00;
+  background: linear-gradient(145deg, #fde68a 0%, #f5c542 100%);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55);
 }
 .home-nav-actions {
   display: flex;
