@@ -19,7 +19,11 @@ function Navbar() {
   // 드롭다운 메뉴 열림/닫힘 상태
   const [menuOpen, setMenuOpen] = useState(false)
   // 장바구니에 담긴 총 개수 (🛒 뱃지에 표시)
-  const [cartCount, setCartCount] = useState(0)
+  // 화면 전환 시 숫자가 깜빡이지 않도록, 저장해둔 개수로 먼저 표시한 뒤 아래에서 서버로 보정.
+  const [cartCount, setCartCount] = useState(() => {
+    const saved = Number(localStorage.getItem('cartCount'))
+    return Number.isFinite(saved) ? saved : 0
+  })
   // 메뉴 영역(바깥 클릭 감지에 사용)
   const menuRef = useRef(null)
 
@@ -53,7 +57,11 @@ function Navbar() {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => (res.ok ? res.json() : null))
-      .then((cart) => setCartCount(cart?.totalItems || 0))
+      .then((cart) => {
+        const n = cart?.totalItems || 0
+        setCartCount(n)
+        localStorage.setItem('cartCount', String(n)) // 다음 화면 전환 때 바로 보여주려고 저장
+      })
       .catch(() => {}) // 실패해도 화면은 그대로 (개수만 0)
   }
 
@@ -87,6 +95,7 @@ function Navbar() {
     localStorage.removeItem('user')
     setUser(null)
     setCartCount(0)    // 장바구니 개수도 초기화
+    localStorage.removeItem('cartCount') // 저장된 개수도 비우기
     setMenuOpen(false) // 메뉴도 닫기
   }
 
