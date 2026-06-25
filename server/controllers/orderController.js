@@ -147,10 +147,17 @@ exports.getAllOrders = async (req, res) => {
   }
 }
 
-// [Read] 주문 상세 1건 ─ GET /api/orders/:id  (본인 주문만 조회 가능)
+// [Read] 주문 상세 1건 ─ GET /api/orders/:id
+//  기본은 '본인 주문만' 조회. 단, 관리자(user_type==='admin')는 모든 주문을 볼 수 있다
+//  (어드민 '주문 관리 → 주문 상세보기'에서 고객 주문을 열어봐야 하기 때문).
 exports.getOrderById = async (req, res) => {
   try {
-    const order = await Order.findOne({ _id: req.params.id, user: req.user.userId })
+    // 관리자면 주인 조건 없이, 일반 회원이면 본인 주문으로 한정
+    const query =
+      req.user.user_type === 'admin'
+        ? { _id: req.params.id }
+        : { _id: req.params.id, user: req.user.userId }
+    const order = await Order.findOne(query)
       .populate('items.product', 'title image type category')
     if (!order) return res.status(404).json({ message: '주문을 찾을 수 없습니다.' })
     res.json(order)
