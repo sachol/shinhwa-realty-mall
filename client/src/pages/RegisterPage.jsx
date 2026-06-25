@@ -72,7 +72,8 @@ function RegisterPage() {
         <h1 className="auth-title">회원가입</h1>
         <p className="auth-subtitle">공인중개사 올인원 마켓에 오신 것을 환영합니다.</p>
 
-        <form className="auth-form" onSubmit={handleSubmit}>
+        {/* autoComplete="off" — 회원가입은 새 계정 생성이므로 브라우저 자동완성(저장된 로그인값) 방지 */}
+        <form className="auth-form" onSubmit={handleSubmit} autoComplete="off">
           <label className="auth-label">
             이메일
             <input
@@ -81,6 +82,7 @@ function RegisterPage() {
               value={form.email}
               onChange={handleChange}
               placeholder="example@email.com"
+              autoComplete="off"
               required
             />
           </label>
@@ -105,6 +107,7 @@ function RegisterPage() {
               value={form.password}
               onChange={handleChange}
               placeholder="비밀번호를 입력하세요"
+              autoComplete="new-password"
               required
             />
           </label>
@@ -117,6 +120,7 @@ function RegisterPage() {
               value={passwordConfirm}
               onChange={(e) => setPasswordConfirm(e.target.value)}
               placeholder="비밀번호를 다시 입력하세요"
+              autoComplete="new-password"
               required
             />
           </label>
