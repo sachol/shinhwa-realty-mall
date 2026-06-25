@@ -1689,6 +1689,11 @@
   font-size: 34px;
   font-weight: 700;
 }
+/* 관리자가 주문을 '상세'로 열 때 — 축하 초록 대신 차분한 남색 아이콘 */
+.oc-check-admin {
+  background: linear-gradient(145deg, #1e3a5f 0%, #0f2c52 100%);
+  font-size: 26px;
+}
 .oc-title {
   font-size: 26px;
   font-weight: 800;

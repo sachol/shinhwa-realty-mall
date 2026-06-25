@@ -78,6 +78,11 @@ function OrderCompletePage() {
   const hasIntangible = items.some((it) => it.type === 'digital')  // 디지털·서비스 포함?
   const orderedAt = new Date(order.createdAt).toLocaleString('ko-KR')
 
+  // 보는 사람이 관리자면 '주문 상세' 화면으로 (고객은 '주문 완료 축하' 그대로)
+  const isAdmin = (() => {
+    try { return JSON.parse(localStorage.getItem('user'))?.user_type === 'admin' } catch { return false }
+  })()
+
   // 다음 단계 안내 — 실물(이메일→제작→배송)과 디지털·서비스(이메일→일정안내→즉시이용)를 다르게
   const steps = hasPhysical
     ? [
@@ -97,9 +102,19 @@ function OrderCompletePage() {
       <main className="checkout order-complete">
         {/* 완료 헤더 — 축하 + 주문번호 */}
         <div className="oc-hero">
-          <div className="oc-check">✓</div>
-          <h1 className="oc-title">주문이 성공적으로 완료되었습니다!</h1>
-          <p className="oc-sub">주문해 주셔서 감사합니다. 주문 확인 이메일을 곧 받으실 수 있습니다.</p>
+          {isAdmin ? (
+            <>
+              <div className="oc-check oc-check-admin">📋</div>
+              <h1 className="oc-title">주문 상세</h1>
+              <p className="oc-sub">관리자 주문 조회 화면입니다. 아래에서 주문 내용을 확인하세요.</p>
+            </>
+          ) : (
+            <>
+              <div className="oc-check">✓</div>
+              <h1 className="oc-title">주문이 성공적으로 완료되었습니다!</h1>
+              <p className="oc-sub">주문해 주셔서 감사합니다. 주문 확인 이메일을 곧 받으실 수 있습니다.</p>
+            </>
+          )}
           <div className="oc-orderno">주문번호 <strong>{order.orderNumber}</strong></div>
         </div>
 
@@ -168,16 +183,27 @@ function OrderCompletePage() {
               </span>
             </div>
             <div className="cart-summary-row total"><span>총 결제금액</span><span>{Number(order.finalAmount).toLocaleString('ko-KR')}원</span></div>
-            <Link to="/orders" className="btn btn-primary btn-lg checkout-submit">주문 목록 보기</Link>
-            <Link to="/" className="cart-continue">계속 쇼핑하기</Link>
+            {isAdmin ? (
+              <>
+                <Link to="/admin/orders" className="btn btn-primary btn-lg checkout-submit">← 주문 관리로</Link>
+                <Link to="/admin" className="cart-continue">관리자 대시보드</Link>
+              </>
+            ) : (
+              <>
+                <Link to="/orders" className="btn btn-primary btn-lg checkout-submit">주문 목록 보기</Link>
+                <Link to="/" className="cart-continue">계속 쇼핑하기</Link>
+              </>
+            )}
           </aside>
         </div>
 
-        {/* 문의 안내 (강사 디자인 참고) */}
-        <div className="oc-help">
-          <p className="oc-help-title">문의사항이 있으신가요?</p>
-          <p className="oc-help-row">📧 support@realtymall.kr · 📞 1600-0000 (평일 10:00~18:00)</p>
-        </div>
+        {/* 문의 안내 — 고객에게만 표시 (관리자 조회 시엔 숨김) */}
+        {!isAdmin && (
+          <div className="oc-help">
+            <p className="oc-help-title">문의사항이 있으신가요?</p>
+            <p className="oc-help-row">📧 support@realtymall.kr · 📞 1600-0000 (평일 10:00~18:00)</p>
+          </div>
+        )}
       </main>
 
       <Footer />
