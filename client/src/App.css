@@ -1509,6 +1509,21 @@
   font-size: 14px;
   color: var(--muted);
 }
+/* '1개' 위에 '수량 고정' 안내 뱃지를 세로로 쌓는다 (버그 아닌 의도된 동작임을 명확히) */
+.qty-fixed-box {
+  flex-direction: column;
+  gap: 4px;
+}
+.qty-fixed-hint {
+  font-size: 10px;
+  font-weight: 700;
+  color: #64748b;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: 999px;
+  padding: 2px 8px;
+  white-space: nowrap;
+}
 .cart-item-remove {
   width: 30px;
   height: 30px;

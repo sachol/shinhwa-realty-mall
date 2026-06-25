@@ -152,9 +152,10 @@ function CartPage() {
                     </div>
 
                     {isDigital ? (
-                      // 디지털·서비스는 수량 고정(1개) — 조절 버튼 없음
-                      <div className="cart-item-qty">
+                      // 디지털·서비스는 수량 고정(1개) — 조절 버튼 없이 '수량 고정' 안내를 함께 표시
+                      <div className="cart-item-qty qty-fixed-box" title="디지털·서비스 상품은 1개씩 구매합니다">
                         <span className="qty-fixed">1개</span>
+                        <span className="qty-fixed-hint">수량 고정</span>
                       </div>
                     ) : (
                       // 실물만 수량 조절 가능
