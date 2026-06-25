@@ -2293,3 +2293,49 @@ a.user-menu-item {
     gap: 24px;
   }
 }
+
+/* ============================================
+   모바일 보강 (≤600px) — 폰에서 깨지거나 답답한 요소만. 발표 모바일 데모용.
+   ※ 카테고리·상세·장바구니/결제 레이아웃·푸터는 기존 768px 규칙이 처리함.
+   ============================================ */
+@media (max-width: 600px) {
+  /* 상단바·로고: 2줄 텍스트가 우측 버튼과 충돌하지 않게 축소 */
+  .home-nav { padding: 12px 14px; }
+  .home-logo { gap: 8px; padding: 7px 11px 7px 8px; border-radius: 11px; }
+  .brand-emblem { width: 30px; height: 30px; font-size: 16px; }
+  .brand-name { font-size: 13px; }
+  .brand-tagline { font-size: 8.5px; }
+  .home-nav-actions { gap: 6px; }
+  .home-nav-actions .btn { padding: 6px 10px; font-size: 12.5px; }
+  .cart-btn { font-size: 18px; }
+
+  /* 히어로: 제목·여백 축소 */
+  .home-hero { padding: 38px 18px 32px; }
+  .home-title { font-size: 23px; }
+  .home-sub { font-size: 14px; }
+
+  /* 상품 그리드: 폰에서도 2열 유지 */
+  .product-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+
+  /* 상품 상세 가격 축소 */
+  .detail-price { font-size: 24px; }
+
+  /* 장바구니 항목: 5칸 그리드 → flex 줄바꿈 (정보열이 안 눌리게) */
+  .cart-item { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+  .cart-item-thumb { width: 52px; height: 52px; flex: 0 0 auto; }
+  .cart-item-info { flex: 1 1 40%; min-width: 0; }
+  .cart-item-remove { order: 3; flex: 0 0 auto; }
+  .cart-item-qty { order: 4; flex: 0 0 auto; }
+  .cart-item-price { order: 5; margin-left: auto; flex: 0 0 auto; }
+
+  /* 관리자 상품표: 가로 스크롤은 유지하되 폰트·여백 축소 */
+  .product-table { font-size: 12px; }
+  .product-table th, .product-table td { padding: 10px 8px; }
+  .table-action { padding: 6px 10px; font-size: 12px; }
+}
+
+/* 극소형(≤400px): 로고 태그라인은 숨겨 브랜드명만 */
+@media (max-width: 400px) {
+  .brand-tagline { display: none; }
+  .home-title { font-size: 21px; }
+}
