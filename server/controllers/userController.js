@@ -13,13 +13,24 @@ const JWT_SECRET = process.env.JWT_SECRET
 // [Create] 회원 생성 (회원가입)  ─ POST /api/users
 exports.createUser = async (req, res) => {
   try {
+    // 가입 시 받을 값만 허용(allowlist) — user_type 등은 클라이언트가 정할 수 없음(관리자 승격 차단)
+    const { email, name, password } = req.body
+    if (!email || !name || !password) {
+      return res.status(400).json({ message: '이메일·이름·비밀번호를 모두 입력해 주세요.' })
+    }
     // 비밀번호를 평문 대신 '해시(암호문)'로 변환 (salt rounds: 10)
-    const hashedPassword = await bcrypt.hash(req.body.password, 10)
-    // 평문 비번 대신 해시된 비번으로 회원 생성
-    const user = await User.create({ ...req.body, password: hashedPassword })
-    res.status(201).json(user)               // 201 = '새로 만들어짐'
+    const hashedPassword = await bcrypt.hash(password, 10)
+    // user_type 은 스키마 기본값 'customer' 로 생성된다 (권한은 코드 밖에서 못 정함)
+    const user = await User.create({ email, name, password: hashedPassword })
+    // 응답엔 비밀번호 해시를 절대 포함하지 않는다
+    res.status(201).json({
+      _id: user._id,
+      email: user.email,
+      name: user.name,
+      user_type: user.user_type,
+    })
   } catch (err) {
-    res.status(400).json({ message: err.message }) // 입력값 문제 등
+    res.status(400).json({ message: err.message }) // 입력값 문제(중복 이메일 등)
   }
 }
 
@@ -111,9 +122,13 @@ exports.updateUser = async (req, res) => {
     if (req.user.user_type !== 'admin' && req.user.userId !== req.params.id) {
       return res.status(403).json({ message: '권한이 없습니다.' })
     }
-    // 일반 회원은 권한(user_type)을 스스로 바꿀 수 없음 (관리자 권한 탈취 방지)
-    const updates = { ...req.body }
-    if (req.user.user_type !== 'admin') delete updates.user_type
+    // 허용된 필드만 수정(allowlist) — password/email 임의 변경 차단, 권한 변경은 관리자만
+    const updates = {}
+    if (req.body.name !== undefined) updates.name = req.body.name
+    if (req.body.address !== undefined) updates.address = req.body.address
+    if (req.user.user_type === 'admin' && req.body.user_type !== undefined) {
+      updates.user_type = req.body.user_type // user_type 변경은 관리자만
+    }
     const user = await User.findByIdAndUpdate(
       req.params.id,
       updates,

@@ -24,13 +24,15 @@ function MainPage() {
   const [products, setProducts] = useState([])
   const [category, setCategory] = useState('all')
   const [page, setPage] = useState(1)
+  const [loading, setLoading] = useState(true)   // 첫 로딩 표시
+  const [loadError, setLoadError] = useState(false) // 불러오기 실패(서버 다운·지연 등)
 
   // 공개 API로 상품 목록 불러오기
   useEffect(() => {
     fetch(API_BASE + '/api/products')
-      .then((res) => res.json())
-      .then((data) => setProducts(data))
-      .catch(() => {})
+      .then((res) => (res.ok ? res.json() : Promise.reject()))
+      .then((data) => { setProducts(data); setLoading(false) })
+      .catch(() => { setLoadError(true); setLoading(false) }) // 실패를 '상품 없음'과 구분
   }, [])
 
   // 카테고리 필터 → 페이지네이션
@@ -99,7 +101,16 @@ function MainPage() {
           )}
         </div>
 
-        {filtered.length === 0 ? (
+        {loading ? (
+          <p className="product-empty">상품을 불러오는 중…</p>
+        ) : loadError ? (
+          <div className="product-empty">
+            <p>상품 목록을 불러올 수 없습니다. 잠시 후 다시 시도해 주세요.</p>
+            <button type="button" className="btn btn-primary" onClick={() => window.location.reload()}>
+              다시 시도
+            </button>
+          </div>
+        ) : filtered.length === 0 ? (
           <p className="product-empty">해당 카테고리에 상품이 없습니다.</p>
         ) : (
           <>

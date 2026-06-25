@@ -39,6 +39,11 @@ exports.getCart = async (req, res) => {
 exports.addToCart = async (req, res) => {
   try {
     const { productId, quantity = 1 } = req.body
+    // 수량은 1~999 정수만 허용 (음수·소수·과대값 차단)
+    const qty = Math.floor(Number(quantity))
+    if (!Number.isFinite(qty) || qty < 1 || qty > 999) {
+      return res.status(400).json({ message: '수량은 1~999 사이의 정수여야 합니다.' })
+    }
 
     // 1) 담을 상품이 실제로 있는지 확인 + 현재 가격을 가져온다(스냅샷용)
     const product = await Product.findById(productId)
@@ -58,12 +63,12 @@ exports.addToCart = async (req, res) => {
       if (isDigital) {
         alreadyAdded = true // 디지털은 이미 있으면 수량을 늘리지 않는다 (중복 누적 방지)
       } else {
-        existing.quantity += Number(quantity) // 실물만 수량 누적
+        existing.quantity += qty // 실물만 수량 누적
       }
     } else {
       cart.items.push({
         product: product._id,
-        quantity: isDigital ? 1 : Number(quantity), // 디지털은 무조건 1
+        quantity: isDigital ? 1 : qty, // 디지털은 무조건 1
         price: product.price, // 담을 당시 가격을 박제(스냅샷)
       })
     }
@@ -84,8 +89,10 @@ exports.addToCart = async (req, res) => {
 exports.updateCartItem = async (req, res) => {
   try {
     const { quantity } = req.body
-    if (!quantity || quantity < 1) {
-      return res.status(400).json({ message: '수량은 1개 이상이어야 합니다.' })
+    // 수량은 1~999 정수만 허용 (소수·과대값 차단)
+    const qty = Math.floor(Number(quantity))
+    if (!Number.isFinite(qty) || qty < 1 || qty > 999) {
+      return res.status(400).json({ message: '수량은 1~999 사이의 정수여야 합니다.' })
     }
 
     const cart = await Cart.findOne({ user: req.user.userId }).populate('items.product')
@@ -100,7 +107,7 @@ exports.updateCartItem = async (req, res) => {
       return res.status(400).json({ message: '디지털·서비스 상품은 수량을 변경할 수 없습니다.' })
     }
 
-    item.quantity = Number(quantity)
+    item.quantity = qty
     recalc(cart)
     await cart.save()
 

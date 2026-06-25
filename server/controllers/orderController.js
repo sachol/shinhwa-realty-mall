@@ -29,11 +29,13 @@ exports.createOrder = async (req, res) => {
       return res.status(400).json({ message: '주문자 이름과 이메일을 입력해 주세요.' })
     }
 
-    // 1-1) 더블주문 확인 — 같은 결제번호로 이미 만든 주문이 있으면 막는다 (강사 강조)
-    if (orderNumber) {
-      const dup = await Order.findOne({ orderNumber })
-      if (dup) return res.status(409).json({ message: '이미 처리된 주문입니다.' })
+    // 1-1) 결제 식별번호(orderNumber)는 필수 — 없으면 결제검증·중복확인을 건너뛰는 우회가 가능하므로 거부
+    if (!orderNumber) {
+      return res.status(400).json({ message: '결제 식별번호가 없어 주문을 생성할 수 없습니다.' })
     }
+    // 1-2) 더블주문 확인 — 같은 결제번호로 이미 만든 주문이 있으면 막는다 (항상 실행)
+    const dup = await Order.findOne({ orderNumber })
+    if (dup) return res.status(409).json({ message: '이미 처리된 주문입니다.' })
 
     // 2) 내 장바구니 가져오기 (상품 정보 포함)
     const cart = await Cart.findOne({ user: req.user.userId }).populate('items.product')
@@ -70,7 +72,7 @@ exports.createOrder = async (req, res) => {
     //   ※ 개발 중 검증만 끄고 싶으면 .env 에 SKIP_PAYMENT_VERIFICATION=true (Secret 은 그대로 둔 채). 강사님 권장.
     const apiSecret = process.env.PORTONE_V2_API_SECRET
     const skipVerify = process.env.SKIP_PAYMENT_VERIFICATION === 'true'
-    if (apiSecret && orderNumber && !skipVerify) {
+    if (apiSecret && !skipVerify) {
       // 결제 식별번호(orderNumber=paymentId)로 포트원에 결제 내역을 조회한다
       const verifyRes = await fetch(
         `https://api.portone.io/payments/${encodeURIComponent(orderNumber)}`,
@@ -118,6 +120,10 @@ exports.createOrder = async (req, res) => {
 
     res.status(201).json(order)
   } catch (err) {
+    // 동시 요청으로 같은 주문번호가 겹치면(중복키 E11000) 내부 에러 노출 대신 친절 메시지
+    if (err.code === 11000) {
+      return res.status(409).json({ message: '이미 처리된 주문입니다.' })
+    }
     res.status(400).json({ message: err.message })
   }
 }
