@@ -56,7 +56,7 @@ function AdminOrdersPage() {
   const handleStatusChange = async (orderId, status) => {
     const token = localStorage.getItem('token')
     try {
-      const res = await fetch(`http://localhost:5000/api/orders/${orderId}/status`, {
+      const res = await fetch(`${API_BASE}/api/orders/${orderId}/status`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify({ status }),

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Navbar from '../../components/Navbar'
+import { API_BASE } from '../../config'
 
 // 유형 필터 (우리 시그니처 — 실물/디지털)
 const FILTERS = [
@@ -39,7 +40,7 @@ function AdminProductsPage() {
       navigate('/login')
       return
     }
-    fetch('http://localhost:5000/api/users/me', {
+    fetch(API_BASE + '/api/users/me', {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => (res.ok ? res.json() : Promise.reject()))
@@ -55,7 +56,7 @@ function AdminProductsPage() {
   }, [navigate])
 
   const loadProducts = () => {
-    fetch('http://localhost:5000/api/products')
+    fetch(API_BASE + '/api/products')
       .then((res) => res.json())
       .then((data) => setProducts(data))
       .catch(() => {})
@@ -99,7 +100,7 @@ function AdminProductsPage() {
     if (!window.confirm(`'${product.title}'을(를) 삭제할까요?`)) return
     const token = localStorage.getItem('token')
     try {
-      const res = await fetch(`http://localhost:5000/api/products/${product._id}`, {
+      const res = await fetch(`${API_BASE}/api/products/${product._id}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       })

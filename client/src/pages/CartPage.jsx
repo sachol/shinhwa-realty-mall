@@ -40,7 +40,7 @@ function CartPage() {
     if (quantity < 1) return // 1개 미만은 무시 (빼려면 삭제 버튼)
     const token = localStorage.getItem('token')
     try {
-      const res = await fetch(`http://localhost:5000/api/cart/items/${itemId}`, {
+      const res = await fetch(`${API_BASE}/api/cart/items/${itemId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify({ quantity }),
@@ -58,7 +58,7 @@ function CartPage() {
   const handleRemove = async (itemId) => {
     const token = localStorage.getItem('token')
     try {
-      const res = await fetch(`http://localhost:5000/api/cart/items/${itemId}`, {
+      const res = await fetch(`${API_BASE}/api/cart/items/${itemId}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       })

@@ -53,7 +53,7 @@ function ProductDetailPage() {
 
   // 페이지가 열릴 때 상품 1개를 불러온다 (로그인 없이 누구나 볼 수 있는 공개 API)
   useEffect(() => {
-    fetch(`http://localhost:5000/api/products/${id}`)
+    fetch(`${API_BASE}/api/products/${id}`)
       .then((res) => {
         if (!res.ok) throw new Error('상품을 찾을 수 없음')
         return res.json()

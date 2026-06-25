@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Navbar from '../../components/Navbar'
+import { API_BASE } from '../../config'
 
 function ProductCreatePage() {
   const navigate = useNavigate()
@@ -24,7 +25,7 @@ function ProductCreatePage() {
       navigate('/login')
       return
     }
-    fetch('http://localhost:5000/api/users/me', {
+    fetch(API_BASE + '/api/users/me', {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => (res.ok ? res.json() : Promise.reject()))
@@ -46,7 +47,7 @@ function ProductCreatePage() {
     e.preventDefault()
     const token = localStorage.getItem('token')
     try {
-      const res = await fetch('http://localhost:5000/api/products', {
+      const res = await fetch(API_BASE + '/api/products', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

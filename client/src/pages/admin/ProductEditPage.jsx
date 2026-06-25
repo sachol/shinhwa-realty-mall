@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import Navbar from '../../components/Navbar'
+import { API_BASE } from '../../config'
 
 function ProductEditPage() {
   const navigate = useNavigate()
@@ -25,7 +26,7 @@ function ProductEditPage() {
       navigate('/login')
       return
     }
-    fetch('http://localhost:5000/api/users/me', {
+    fetch(API_BASE + '/api/users/me', {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => (res.ok ? res.json() : Promise.reject()))
@@ -36,7 +37,7 @@ function ProductEditPage() {
         }
         setAllowed(true)
         // 기존 상품 데이터를 불러와 폼에 미리 채운다
-        return fetch(`http://localhost:5000/api/products/${id}`)
+        return fetch(`${API_BASE}/api/products/${id}`)
           .then((res) => {
             if (!res.ok) throw new Error('상품을 찾을 수 없음')
             return res.json()
@@ -88,7 +89,7 @@ function ProductEditPage() {
     e.preventDefault()
     const token = localStorage.getItem('token')
     try {
-      const res = await fetch(`http://localhost:5000/api/products/${id}`, {
+      const res = await fetch(`${API_BASE}/api/products/${id}`, {
         method: 'PUT', // 수정 = PUT
         headers: {
           'Content-Type': 'application/json',
