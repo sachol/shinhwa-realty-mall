@@ -62,7 +62,11 @@ function LoginPage() {
   return (
     <div className="auth-page">
       <div className="auth-card">
-        <Link to="/" className="auth-brand">🏠 중개사 올인원</Link>
+        <Link to="/" className="auth-brand" aria-label="공인중개사 올인원 홈">
+          <span className="logo-icon" aria-hidden="true">🏠</span>
+          <span className="logo-name">공인중개사</span>
+          <span className="logo-badge">올인원</span>
+        </Link>
         <h1 className="auth-title">로그인</h1>
         <p className="auth-subtitle">다시 오신 것을 환영합니다.</p>
 

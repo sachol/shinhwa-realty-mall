@@ -848,13 +848,49 @@
     0 4px 6px -2px rgba(15, 23, 42, 0.04);
   padding: 40px 32px;
 }
+/* 로그인·회원가입 로고 — 상단바와 동일한 '공인중개사 올인원' 3D 남색 버튼 */
 .auth-brand {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 11px;
   font-size: 15px;
-  font-weight: 700;
-  color: var(--primary);
+  font-weight: 800;
+  letter-spacing: -0.2px;
+  color: #fff;
   text-decoration: none;
   margin-bottom: 20px;
+  background: linear-gradient(145deg, #1e3a5f 0%, #0f2c52 100%);
+  border: 1px solid rgba(15, 44, 82, 0.6);
+  box-shadow:
+    0 3px 8px rgba(15, 44, 82, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  transition: transform 0.12s ease, filter 0.12s ease;
+}
+.auth-brand:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.06);
+}
+.auth-brand .logo-icon {
+  font-size: 16px;
+  line-height: 1;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.25));
+}
+.auth-brand .logo-name {
+  color: #fff;
+}
+.auth-brand .logo-badge {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0;
+  padding: 2px 8px;
+  border-radius: 999px;
+  color: #3a2c00;
+  background: linear-gradient(145deg, #fde68a 0%, #f5c542 100%);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 .auth-title {
   font-size: 26px;
