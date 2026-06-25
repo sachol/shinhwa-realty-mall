@@ -32,6 +32,8 @@ function AdminProductsPage() {
   const [filter, setFilter] = useState('all')
   const [sort, setSort] = useState('latest')
   const [page, setPage] = useState(1)
+  const [deleteTarget, setDeleteTarget] = useState(null) // 삭제 확인 모달에 띄울 대상 상품
+  const [deleting, setDeleting] = useState(false)         // 삭제 요청 진행 중 표시
 
   // 관리자 가드 + 상품 불러오기
   useEffect(() => {
@@ -95,23 +97,27 @@ function AdminProductsPage() {
   const start = (page - 1) * PAGE_SIZE
   const paged = filtered.slice(start, start + PAGE_SIZE)
 
-  // 삭제 (DELETE /api/products/:id — admin만)
-  const handleDelete = async (product) => {
-    if (!window.confirm(`'${product.title}'을(를) 삭제할까요?`)) return
+  // 삭제 실행 (DELETE /api/products/:id — admin만). 확인 모달에서 '삭제'를 눌렀을 때만 호출
+  const confirmDelete = async () => {
+    if (!deleteTarget) return
     const token = localStorage.getItem('token')
+    setDeleting(true)
     try {
-      const res = await fetch(`${API_BASE}/api/products/${product._id}`, {
+      const res = await fetch(`${API_BASE}/api/products/${deleteTarget._id}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       })
       if (res.ok) {
-        setProducts((prev) => prev.filter((p) => p._id !== product._id))
+        setProducts((prev) => prev.filter((p) => p._id !== deleteTarget._id))
+        setDeleteTarget(null) // 모달 닫기
       } else {
         const data = await res.json()
         alert('삭제 실패: ' + (data.message || ''))
       }
     } catch (err) {
       alert('서버에 연결할 수 없습니다.')
+    } finally {
+      setDeleting(false)
     }
   }
 
@@ -202,7 +208,7 @@ function AdminProductsPage() {
                     <button className="table-action" onClick={() => navigate(`/admin/products/${p._id}/edit`)}>
                       수정
                     </button>
-                    <button className="table-action danger" onClick={() => handleDelete(p)}>
+                    <button className="table-action danger" onClick={() => setDeleteTarget(p)}>
                       삭제
                     </button>
                   </td>
@@ -243,6 +249,28 @@ function AdminProductsPage() {
         )}
 
         <p className="product-count">총 {filtered.length}개 상품</p>
+
+        {/* 삭제 확인 모달 — 바로 삭제하지 않고 한 번 더 확인받는다 */}
+        {deleteTarget && (
+          <div className="modal-overlay" onClick={() => !deleting && setDeleteTarget(null)}>
+            <div className="modal-card" onClick={(e) => e.stopPropagation()}>
+              <div className="modal-icon">🗑️</div>
+              <h3 className="modal-title">상품을 삭제할까요?</h3>
+              <p className="modal-text">
+                <strong>{deleteTarget.title}</strong> 상품이 삭제됩니다.<br />
+                이 작업은 되돌릴 수 없습니다.
+              </p>
+              <div className="modal-actions">
+                <button type="button" className="btn btn-ghost" onClick={() => setDeleteTarget(null)} disabled={deleting}>
+                  취소
+                </button>
+                <button type="button" className="btn btn-danger" onClick={confirmDelete} disabled={deleting}>
+                  {deleting ? '삭제 중…' : '삭제'}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </main>
     </div>
   )
