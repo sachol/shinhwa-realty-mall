@@ -70,7 +70,7 @@ function AdminPage() {
       <main className="admin">
         <header className="admin-head">
           <h1 className="admin-title">관리자 대시보드</h1>
-          <p className="admin-sub">중개사 올인원 관리 시스템에 오신 것을 환영합니다, {adminName}님.</p>
+          <p className="admin-sub">공인중개사 올인원 관리 시스템에 오신 것을 환영합니다, {adminName}님.</p>
         </header>
 
         {/* 통계 카드 — 전부 실데이터 */}
