@@ -46,58 +46,86 @@
   border-bottom: 1px solid var(--border);
   background: #fff;
 }
-/* 로고 — 공인중개사 정체성을 살린 3D 남색 입체 버튼 */
-.home-logo {
+/* 로고 — 공인중개사 Total Solution 정체성을 담은 프리미엄 엠블럼 (남색 3D + 금색 인장) */
+/* 상단바(.home-logo)와 로그인·회원가입(.auth-brand)이 완전히 동일한 로고를 공유한다 */
+.home-logo,
+.auth-brand {
   display: inline-flex;
   align-items: center;
-  gap: 9px;
-  padding: 9px 16px;
-  border-radius: 12px;
-  font-size: 17px;
-  font-weight: 800;
-  letter-spacing: -0.2px;
-  color: #fff;
+  gap: 11px;
+  padding: 8px 17px 8px 10px;
+  border-radius: 14px;
   text-decoration: none;
-  background: linear-gradient(145deg, #1e3a5f 0%, #0f2c52 100%);
+  background:
+    radial-gradient(120% 140% at 0% 0%, rgba(245, 197, 66, 0.12) 0%, transparent 45%),
+    linear-gradient(145deg, #1e3a5f 0%, #0f2c52 100%);
   border: 1px solid rgba(15, 44, 82, 0.6);
   box-shadow:
-    0 4px 10px rgba(15, 44, 82, 0.35),
-    inset 0 1px 0 rgba(255, 255, 255, 0.18);
-  transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+    0 5px 14px rgba(15, 44, 82, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 0 0 1px rgba(245, 197, 66, 0.12);
+  transition: transform 0.14s ease, box-shadow 0.14s ease, filter 0.14s ease;
 }
-.home-logo:hover {
+.home-logo:hover,
+.auth-brand:hover {
   transform: translateY(-2px);
-  filter: brightness(1.06);
+  filter: brightness(1.07);
   box-shadow:
-    0 8px 18px rgba(15, 44, 82, 0.45),
-    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+    0 10px 22px rgba(15, 44, 82, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.24),
+    inset 0 0 0 1px rgba(245, 197, 66, 0.22);
 }
-.home-logo:active {
+.home-logo:active,
+.auth-brand:active {
   transform: translateY(1px);
   box-shadow:
-    0 2px 6px rgba(15, 44, 82, 0.4),
+    0 3px 8px rgba(15, 44, 82, 0.42),
     inset 0 2px 5px rgba(0, 0, 0, 0.22);
 }
-.home-logo .logo-icon {
+/* 엠블럼 — 금색 테두리의 '인장(자격·신뢰)' 느낌 */
+.brand-emblem {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
   font-size: 18px;
-  line-height: 1;
-  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.25));
-}
-.home-logo .logo-name {
-  color: #fff;
-}
-/* '올인원' — 금색 포인트 뱃지로 강조 */
-.home-logo .logo-badge {
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0;
-  padding: 3px 9px;
-  border-radius: 999px;
-  color: #3a2c00;
-  background: linear-gradient(145deg, #fde68a 0%, #f5c542 100%);
+  background: linear-gradient(150deg, #2c4a72 0%, #0c2547 100%);
+  border: 1.5px solid rgba(245, 197, 66, 0.75);
   box-shadow:
-    0 1px 2px rgba(0, 0, 0, 0.25),
-    inset 0 1px 0 rgba(255, 255, 255, 0.55);
+    0 2px 6px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+.brand-stack {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.12;
+}
+.brand-name {
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  color: #fff;
+  white-space: nowrap;
+}
+/* '올인원' — 금색 그라데이션 글자 */
+.brand-accent {
+  margin-left: 5px;
+  font-weight: 800;
+  background: linear-gradient(90deg, #fde68a 0%, #f5c542 55%, #e0a90a 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+/* 태그라인 — 작은 금색 대문자, '토탈 솔루션' 정체성 */
+.brand-tagline {
+  margin-top: 2px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  color: rgba(245, 219, 150, 0.82);
+  white-space: nowrap;
 }
 .home-nav-actions {
   display: flex;
@@ -848,49 +876,9 @@
     0 4px 6px -2px rgba(15, 23, 42, 0.04);
   padding: 40px 32px;
 }
-/* 로그인·회원가입 로고 — 상단바와 동일한 '공인중개사 올인원' 3D 남색 버튼 */
+/* 로그인·회원가입 로고 — 위 공통 규칙(.home-logo,.auth-brand)을 그대로 쓰고, 카드용 아래 여백만 추가 */
 .auth-brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 14px;
-  border-radius: 11px;
-  font-size: 15px;
-  font-weight: 800;
-  letter-spacing: -0.2px;
-  color: #fff;
-  text-decoration: none;
   margin-bottom: 20px;
-  background: linear-gradient(145deg, #1e3a5f 0%, #0f2c52 100%);
-  border: 1px solid rgba(15, 44, 82, 0.6);
-  box-shadow:
-    0 3px 8px rgba(15, 44, 82, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.18);
-  transition: transform 0.12s ease, filter 0.12s ease;
-}
-.auth-brand:hover {
-  transform: translateY(-1px);
-  filter: brightness(1.06);
-}
-.auth-brand .logo-icon {
-  font-size: 16px;
-  line-height: 1;
-  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.25));
-}
-.auth-brand .logo-name {
-  color: #fff;
-}
-.auth-brand .logo-badge {
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0;
-  padding: 2px 8px;
-  border-radius: 999px;
-  color: #3a2c00;
-  background: linear-gradient(145deg, #fde68a 0%, #f5c542 100%);
-  box-shadow:
-    0 1px 2px rgba(0, 0, 0, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 .auth-title {
   font-size: 26px;

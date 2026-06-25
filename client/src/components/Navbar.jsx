@@ -102,10 +102,12 @@ function Navbar() {
   return (
     <header className="home-nav">
       {/* 로고 클릭 시 메인으로 이동 — 공인중개사 정체성 + 올인원 뱃지 (3D 남색 버튼) */}
-      <Link to="/" className="home-logo" aria-label="공인중개사 올인원 홈">
-        <span className="logo-icon" aria-hidden="true">🏠</span>
-        <span className="logo-name">공인중개사</span>
-        <span className="logo-badge">올인원</span>
+      <Link to="/" className="home-logo" aria-label="공인중개사 올인원 - 공인중개사 토탈 솔루션 마켓">
+        <span className="brand-emblem" aria-hidden="true">🏠</span>
+        <span className="brand-stack">
+          <span className="brand-name">공인중개사<span className="brand-accent">올인원</span></span>
+          <span className="brand-tagline">공인중개사 TOTAL SOLUTION</span>
+        </span>
       </Link>
 
       <div className="home-nav-actions">

@@ -62,10 +62,12 @@ function LoginPage() {
   return (
     <div className="auth-page">
       <div className="auth-card">
-        <Link to="/" className="auth-brand" aria-label="공인중개사 올인원 홈">
-          <span className="logo-icon" aria-hidden="true">🏠</span>
-          <span className="logo-name">공인중개사</span>
-          <span className="logo-badge">올인원</span>
+        <Link to="/" className="auth-brand" aria-label="공인중개사 올인원 - 공인중개사 토탈 솔루션 마켓">
+          <span className="brand-emblem" aria-hidden="true">🏠</span>
+          <span className="brand-stack">
+            <span className="brand-name">공인중개사<span className="brand-accent">올인원</span></span>
+            <span className="brand-tagline">공인중개사 TOTAL SOLUTION</span>
+          </span>
         </Link>
         <h1 className="auth-title">로그인</h1>
         <p className="auth-subtitle">다시 오신 것을 환영합니다.</p>
