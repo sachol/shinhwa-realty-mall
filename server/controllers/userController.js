@@ -79,20 +79,24 @@ exports.getMe = async (req, res) => {
   }
 }
 
-// [Read] 전체 회원 목록  ─ GET /api/users
+// [Read] 전체 회원 목록  ─ GET /api/users  (관리자 전용: 라우트에서 auth+adminOnly 통과)
 exports.getAllUsers = async (req, res) => {
   try {
-    const users = await User.find()  // 모든 회원 찾기
+    const users = await User.find().select('-password') // 비밀번호 해시는 절대 내보내지 않음
     res.json(users)
   } catch (err) {
     res.status(500).json({ message: err.message })
   }
 }
 
-// [Read] 특정 회원 1명  ─ GET /api/users/:id
+// [Read] 특정 회원 1명  ─ GET /api/users/:id  (본인 또는 관리자만)
 exports.getUserById = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id) // 주소의 :id로 찾기
+    // 본인 또는 관리자만 조회 가능 (남의 개인정보 열람 차단)
+    if (req.user.user_type !== 'admin' && req.user.userId !== req.params.id) {
+      return res.status(403).json({ message: '권한이 없습니다.' })
+    }
+    const user = await User.findById(req.params.id).select('-password') // 비밀번호 해시 제외
     if (!user) return res.status(404).json({ message: '회원을 찾을 수 없습니다.' })
     res.json(user)
   } catch (err) {
@@ -100,14 +104,21 @@ exports.getUserById = async (req, res) => {
   }
 }
 
-// [Update] 회원 정보 수정  ─ PUT /api/users/:id
+// [Update] 회원 정보 수정  ─ PUT /api/users/:id  (본인 또는 관리자만)
 exports.updateUser = async (req, res) => {
   try {
+    // 본인 또는 관리자만 수정 가능
+    if (req.user.user_type !== 'admin' && req.user.userId !== req.params.id) {
+      return res.status(403).json({ message: '권한이 없습니다.' })
+    }
+    // 일반 회원은 권한(user_type)을 스스로 바꿀 수 없음 (관리자 권한 탈취 방지)
+    const updates = { ...req.body }
+    if (req.user.user_type !== 'admin') delete updates.user_type
     const user = await User.findByIdAndUpdate(
       req.params.id,
-      req.body,
-      { new: true, runValidators: true } // new: 수정된 결과를 돌려줌 / runValidators: 스키마 규칙 검사
-    )
+      updates,
+      { new: true, runValidators: true }, // new: 수정된 결과를 돌려줌 / runValidators: 스키마 규칙 검사
+    ).select('-password') // 비밀번호 해시 제외
     if (!user) return res.status(404).json({ message: '회원을 찾을 수 없습니다.' })
     res.json(user)
   } catch (err) {
