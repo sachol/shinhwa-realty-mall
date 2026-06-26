@@ -78,3 +78,4 @@
 - [ ] 검증용 계정 `sectest_delete_me@example.com` 삭제(선택)
 - [ ] **모바일 반응형 모드** 미리 한 번 띄워서 확인 (F12 → Ctrl+Shift+M)
 - [ ] 로그인된 상태로 시작 / Google Meet 링크 준비
+- [ ] (권장) **시크릿 모드(Ctrl+Shift+N)로 데모** — 확장프로그램 콘솔 에러·자동완성 없이 깔끔하게
