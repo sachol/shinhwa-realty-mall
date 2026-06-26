@@ -257,7 +257,7 @@ function CheckoutPage() {
             </div>
             <div className="cart-summary-row total"><span>총 결제금액</span><span>{finalAmount.toLocaleString('ko-KR')}원</span></div>
             <button type="submit" className="btn btn-primary btn-lg checkout-submit" disabled={submitting}>
-              {submitting ? '처리 중…' : `${finalAmount.toLocaleString('ko-KR')}원 주문하기`}
+              {submitting ? '처리 중…' : `${finalAmount.toLocaleString('ko-KR')}원 결제하기`}
             </button>
             <Link to="/cart" className="cart-continue">← 장바구니로</Link>
           </aside>
