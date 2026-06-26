@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import Navbar from '../../components/Navbar'
 import { API_BASE } from '../../config'
 
@@ -98,6 +98,7 @@ function ProductCreatePage() {
       <Navbar />
 
       <main className="product-create">
+        <Link to="/admin" className="cart-continue" style={{ display: 'inline-block', marginBottom: '14px' }}>← 관리자 대시보드</Link>
         <h1 className="product-create-title">새 상품 등록</h1>
         <p className="product-create-sub">공인중개사 올인원 마켓에 등록할 상품 정보를 입력하세요.</p>
 

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams, Link } from 'react-router-dom'
 import Navbar from '../../components/Navbar'
 import { API_BASE } from '../../config'
 
@@ -116,6 +116,7 @@ function ProductEditPage() {
       <Navbar />
 
       <main className="product-create">
+        <Link to="/admin" className="cart-continue" style={{ display: 'inline-block', marginBottom: '14px' }}>← 관리자 대시보드</Link>
         <h1 className="product-create-title">상품 수정</h1>
         <p className="product-create-sub">상품 정보를 수정합니다. (이미지도 여기서 추가/변경)</p>
 
