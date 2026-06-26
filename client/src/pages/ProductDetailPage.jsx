@@ -32,7 +32,7 @@ function getGuide(product) {
     return {
       icon: '🚚',
       title: '배송 안내',
-      text: '주문 제작(맞춤) 상품입니다. 결제 후 영업일 기준 5~7일 이내에 배송됩니다.',
+      text: '주문 제작(맞춤)·개별포장 상품입니다. 배송비는 개당 3,000원이며, 결제 후 영업일 기준 5~7일 이내에 배송됩니다.',
     }
   }
   // 그 외 — 디지털 교육콘텐츠(VOD·자료) 등
@@ -181,6 +181,13 @@ function ProductDetailPage() {
                 <span className="stock-ok">주문 제작 상품 · 맞춤 제작 후 배송</span>
               )}
             </div>
+
+            {/* 실물: 배송비 안내 — 주문제작이라 개당 3,000원 + 개별포장 */}
+            {!isDigital && (
+              <p className="detail-shipping-note">
+                🚚 배송비 <strong>개당 3,000원</strong> · 주문제작 상품이라 <strong>개별포장</strong>되어 발송됩니다.
+              </p>
+            )}
 
             {/* 상품 설명 */}
             <div className="detail-desc">

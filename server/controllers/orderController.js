@@ -53,10 +53,11 @@ exports.createOrder = async (req, res) => {
       type: it.product.type,
     }))
 
-    // 4) 금액 계산 (장바구니 규칙과 동일: 실물 있으면 배송비 3,000 / 디지털만이면 0)
+    // 4) 금액 계산 — 실물은 주문제작·개별포장이므로 배송비 '개당 3,000원'(= 실물 총수량 × 3,000), 디지털만이면 0
     const totalAmount = items.reduce((s, it) => s + it.price * it.quantity, 0)
-    const hasPhysical = items.some((it) => it.type === 'physical')
-    const shippingFee = hasPhysical ? 3000 : 0
+    const physicalQty = items.filter((it) => it.type === 'physical').reduce((s, it) => s + it.quantity, 0)
+    const hasPhysical = physicalQty > 0
+    const shippingFee = physicalQty * 3000
     const finalAmount = totalAmount + shippingFee
 
     // 5) 실물이 있으면 배송지 필수 (디지털·서비스만이면 배송지 없이 진행)

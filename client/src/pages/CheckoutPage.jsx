@@ -65,10 +65,11 @@ function CheckoutPage() {
     )
   }
 
-  // 금액 계산 (장바구니 규칙과 동일: 실물 있으면 배송비 3,000)
+  // 금액 계산 — 실물은 주문제작·개별포장이므로 배송비 '개당 3,000원'(= 실물 총수량 × 3,000)
   const hasPhysical = items.some((it) => it.product.type === 'physical')
+  const physicalQty = items.filter((it) => it.product.type === 'physical').reduce((s, it) => s + it.quantity, 0)
   const totalAmount = cart.totalAmount || 0
-  const shippingFee = hasPhysical ? 3000 : 0
+  const shippingFee = physicalQty * 3000
   const finalAmount = totalAmount + shippingFee
 
   const handleOrderer = (e) => setOrderer({ ...orderer, [e.target.name]: e.target.value })
@@ -249,7 +250,7 @@ function CheckoutPage() {
             </div>
             <div className="cart-summary-row"><span>상품 금액</span><span>{totalAmount.toLocaleString('ko-KR')}원</span></div>
             <div className="cart-summary-row">
-              <span>배송비</span>
+              <span>배송비{physicalQty > 0 ? ' (개당 3,000원)' : ''}</span>
               <span className={shippingFee === 0 ? 'shipping-free' : ''}>
                 {shippingFee === 0 ? '무료' : `${shippingFee.toLocaleString('ko-KR')}원`}
               </span>

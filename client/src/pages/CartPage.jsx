@@ -101,10 +101,9 @@ function CartPage() {
   }
 
   const items = cart?.items || []
-  // 실물(physical) 상품이 하나라도 있으면 배송비 3,000원 — 디지털(VOD·다운로드)만이면 무료
-  const SHIPPING_FEE = 3000
-  const hasPhysical = items.some((it) => it.product?.type === 'physical')
-  const shippingFee = hasPhysical ? SHIPPING_FEE : 0
+  // 실물은 주문제작·개별포장 → 배송비 '개당 3,000원'(= 실물 총수량 × 3,000). 디지털만이면 무료
+  const physicalQty = items.filter((it) => it.product?.type === 'physical').reduce((s, it) => s + it.quantity, 0)
+  const shippingFee = physicalQty * 3000
   const finalAmount = (cart?.totalAmount || 0) + shippingFee
 
   return (
@@ -202,7 +201,7 @@ function CartPage() {
                 <span>{Number(cart.totalAmount).toLocaleString('ko-KR')}원</span>
               </div>
               <div className="cart-summary-row">
-                <span>배송비</span>
+                <span>배송비{physicalQty > 0 ? ' (개당 3,000원)' : ''}</span>
                 <span className={shippingFee === 0 ? 'shipping-free' : ''}>
                   {shippingFee === 0 ? '무료' : `${shippingFee.toLocaleString('ko-KR')}원`}
                 </span>

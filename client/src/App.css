@@ -2339,3 +2339,16 @@ a.user-menu-item {
   .brand-tagline { display: none; }
   .home-title { font-size: 21px; }
 }
+
+/* 상품 상세 — 실물 배송비 안내 (주문제작·개별포장 → 개당 3,000원) */
+.detail-shipping-note {
+  margin-top: 10px;
+  font-size: 13.5px;
+  color: var(--muted);
+  background: #f3f7ff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  line-height: 1.5;
+}
+.detail-shipping-note strong { color: var(--ink); }
