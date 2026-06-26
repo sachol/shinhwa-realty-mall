@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import Navbar from '../../components/Navbar'
 import { API_BASE } from '../../config'
 
@@ -128,6 +128,7 @@ function AdminProductsPage() {
       <Navbar />
 
       <main className="admin">
+        <Link to="/admin" className="cart-continue" style={{ display: 'inline-block', marginBottom: '14px' }}>← 관리자 대시보드</Link>
         <div className="admin-products-head">
           <div>
             <h1 className="admin-title">상품 관리</h1>
